@@ -195,7 +195,7 @@ export default function HeroSection() {
                   />
                   <Image
                     className="z-2 border-border/25 aspect-15/8 relative rounded-2xl border dark:hidden"
-                    src="/mail2-light.png"
+                    src="/hero.png"
                     alt="app screen"
                     width="2700"
                     height="1440"
