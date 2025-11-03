@@ -119,7 +119,7 @@ export const HeroHeader = () => {
                         className={buttonVariants({
                           variant: "outline",
                           size: "sm",
-                          className: cn(isScrolled && "lg:hidden")
+                          className: cn(isScrolled && "lg:hidden"),
                         })}
                       >
                         Log in
@@ -128,20 +128,22 @@ export const HeroHeader = () => {
                         className={buttonVariants({
                           variant: "default",
                           size: "sm",
-                          className: cn(isScrolled && "lg:hidden")
+                          className: cn(isScrolled && "lg:hidden"),
                         })}
                       >
                         Register
                       </RegisterLink>
-                      <div className={cn(isScrolled ? "lg:inline-flex" : "hidden")}>
-                      <RegisterLink
+                      <div
+                        className={cn(isScrolled ? "lg:inline-flex" : "hidden")}
+                      >
+                        <RegisterLink
                           className={buttonVariants({
                             variant: "default",
                             size: "sm",
                           })}
-                      >
-                        Get Started
-                      </RegisterLink>
+                        >
+                          Get Started
+                        </RegisterLink>
                       </div>
                     </>
                   )}
