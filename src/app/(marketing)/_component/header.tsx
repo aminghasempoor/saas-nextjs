@@ -1,12 +1,17 @@
 "use client";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
-import {Button, buttonVariants} from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import React from "react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Logo from "../../../../public/logo.svg";
-import {LoginLink, LogoutLink, RegisterLink, useKindeBrowserClient} from "@kinde-oss/kinde-auth-nextjs";
+import {
+  LoginLink,
+  LogoutLink,
+  RegisterLink,
+  useKindeBrowserClient,
+} from "@kinde-oss/kinde-auth-nextjs";
 
 const menuItems = [
   { name: "Features", href: "#link" },
@@ -18,9 +23,8 @@ const menuItems = [
 export const HeroHeader = () => {
   const [menuState, setMenuState] = React.useState(false);
   const [isScrolled, setIsScrolled] = React.useState(false);
-  const { getUser, isLoading } = useKindeBrowserClient()
-  const user = getUser()
-
+  const { getUser, isLoading } = useKindeBrowserClient();
+  const user = getUser();
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -93,36 +97,52 @@ export const HeroHeader = () => {
                 </ul>
               </div>
               {isLoading ? null : (
-                  <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
-                    {user ? (
-                        <>
-                          <Link className={buttonVariants({variant: "outline", size: "sm"})} href={"/dashboard"}>
-                            Dashboard
-                          </Link>
-                          <LogoutLink className={buttonVariants({size: "sm"})}>
-                            Log out
-                          </LogoutLink>
-                        </>
-                        ) : (
-                        <>
-                          <LoginLink className={buttonVariants({variant: "outline", size: "sm"})}>
-                            Log in
-                          </LoginLink>
-                          <RegisterLink className={buttonVariants({variant: "default", size: "sm"})}>
-                            Register
-                          </RegisterLink>
-                          <Button
-                              asChild
-                              size="sm"
-                              className={cn(isScrolled ? "lg:inline-flex" : "hidden")}
-                          >
-                            <Link href="#">
-                              <span>Get Started</span>
-                            </Link>
-                          </Button>
-                        </>
-                    )}
-                  </div>
+                <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
+                  {user ? (
+                    <>
+                      <Link
+                        className={buttonVariants({
+                          variant: "outline",
+                          size: "sm",
+                        })}
+                        href={"/dashboard"}
+                      >
+                        Dashboard
+                      </Link>
+                      <LogoutLink className={buttonVariants({ size: "sm" })}>
+                        Log out
+                      </LogoutLink>
+                    </>
+                  ) : (
+                    <>
+                      <LoginLink
+                        className={buttonVariants({
+                          variant: "outline",
+                          size: "sm",
+                        })}
+                      >
+                        Log in
+                      </LoginLink>
+                      <RegisterLink
+                        className={buttonVariants({
+                          variant: "default",
+                          size: "sm",
+                        })}
+                      >
+                        Register
+                      </RegisterLink>
+                      <Button
+                        asChild
+                        size="sm"
+                        className={cn(isScrolled ? "lg:inline-flex" : "hidden")}
+                      >
+                        <Link href="#">
+                          <span>Get Started</span>
+                        </Link>
+                      </Button>
+                    </>
+                  )}
+                </div>
               )}
             </div>
           </div>
