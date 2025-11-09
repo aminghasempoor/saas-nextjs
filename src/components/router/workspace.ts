@@ -4,6 +4,8 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { base } from "@/components/Middlewares/base";
 import { requiredAuthMiddleware } from "@/components/Middlewares/auth";
 import { requiredWorkspaceMiddleware } from "@/components/Middlewares/workspace";
+import {workspaceSchema} from "@/schemas/workspaceSchema";
+import {init, Organizations} from "@kinde/management-api-js"
 
 export const listWorkSpace = base
   .use(requiredAuthMiddleware)
@@ -44,3 +46,61 @@ export const listWorkSpace = base
       currentWorkspace: context.workspace,
     };
   });
+
+
+export const createWorkSpace = base
+    .use(requiredAuthMiddleware)
+    .use(requiredWorkspaceMiddleware)
+    .route({
+        method: "POST",
+        path: "/dashboard",
+        summary: "Create a new Workspace",
+        tags: ["workspace"],
+    })
+    .input(workspaceSchema)
+    .output(
+        z.object({
+            orgCode : z.string(),
+            workspaceName : z.string()
+        }),
+    )
+    .handler(async ({ context, errors, input }) => {
+        init()
+        let data
+        try {
+            data = await Organizations.createOrganization({
+                requestBody : {
+                    name : input.name
+                }
+            })
+        } catch {
+            throw errors.FORBIDDEN()
+        }
+
+        if (!data.organization?.code){
+            throw errors.FORBIDDEN({
+                message : "Org code is not defined"
+            })
+        }
+
+        try {
+            await Organizations.addOrganizationUsers({
+                orgCode : data.organization.code,
+                requestBody : {
+                    users : [
+                        {id: context.user.id, roles : ['admin']}
+                    ]
+                }
+            })
+        } catch {
+            throw errors.FORBIDDEN()
+        }
+
+        const {refreshTokens} = getKindeServerSession()
+        await refreshTokens()
+
+        return {
+            orgCode : data.organization.code,
+            workspaceName : input.name
+        }
+    });
