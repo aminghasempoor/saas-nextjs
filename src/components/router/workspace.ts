@@ -6,8 +6,8 @@ import { requiredAuthMiddleware } from "@/components/Middlewares/auth";
 import { requiredWorkspaceMiddleware } from "@/components/Middlewares/workspace";
 import { workspaceSchema } from "@/schemas/workspaceSchema";
 import { init, Organizations } from "@kinde/management-api-js";
-import {standardSecurityMiddleware} from "@/components/Middlewares/arcjet/standard";
-import {heavyWriteSecurityMiddleware} from "@/components/Middlewares/arcjet/heavyWrite";
+import { standardSecurityMiddleware } from "@/components/Middlewares/arcjet/standard";
+import { heavyWriteSecurityMiddleware } from "@/components/Middlewares/arcjet/heavyWrite";
 
 export const listWorkSpace = base
   .use(requiredAuthMiddleware)
@@ -52,8 +52,8 @@ export const listWorkSpace = base
 export const createWorkSpace = base
   .use(requiredAuthMiddleware)
   .use(requiredWorkspaceMiddleware)
-    .use(standardSecurityMiddleware)
-    .use(heavyWriteSecurityMiddleware)
+  .use(standardSecurityMiddleware)
+  .use(heavyWriteSecurityMiddleware)
   .route({
     method: "POST",
     path: "/dashboard",
