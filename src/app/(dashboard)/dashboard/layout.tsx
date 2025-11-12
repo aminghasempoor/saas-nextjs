@@ -29,7 +29,7 @@ export default async function DashboardLayout({
         </div>
         <div className={"mt-auto"}>
           <HydrateClient client={queryClient}>
-          <UserNav />
+            <UserNav />
           </HydrateClient>
         </div>
       </div>

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,14 +15,15 @@ import {
   LogoutLink,
   PortalLink,
 } from "@kinde-oss/kinde-auth-nextjs/components";
-import {useSuspenseQuery} from "@tanstack/react-query";
-import {orpc} from "@/lib/orpc";
-import {getAvatar} from "@/lib/getAvatar";
-
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { orpc } from "@/lib/orpc";
+import { getAvatar } from "@/lib/getAvatar";
 
 export default function UserNav() {
-  const {data : {user}} = useSuspenseQuery(orpc.workspace.list.queryOptions());
-  console.log(user.picture)
+  const {
+    data: { user },
+  } = useSuspenseQuery(orpc.workspace.list.queryOptions());
+  console.log(user.picture);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -38,7 +39,9 @@ export default function UserNav() {
               src={getAvatar(user.picture, user.email!)}
               className={"object-cover"}
             ></AvatarImage>
-            <AvatarFallback>{user.given_name?.slice(0,2).toUpperCase()}</AvatarFallback>
+            <AvatarFallback>
+              {user.given_name?.slice(0, 2).toUpperCase()}
+            </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
@@ -55,10 +58,12 @@ export default function UserNav() {
         >
           <Avatar>
             <AvatarImage
-                src={getAvatar(user.picture, user.email!)}
+              src={getAvatar(user.picture, user.email!)}
               className={"object-cover"}
             ></AvatarImage>
-            <AvatarFallback>{user.given_name?.slice(0,2).toUpperCase()}</AvatarFallback>
+            <AvatarFallback>
+              {user.given_name?.slice(0, 2).toUpperCase()}
+            </AvatarFallback>
           </Avatar>
           <div className={"grid flex-1 text-left text-sm leading-tight px-2"}>
             <p className={"truncate font-medium"}>{user.given_name}</p>
