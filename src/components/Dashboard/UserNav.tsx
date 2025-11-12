@@ -1,3 +1,4 @@
+"use client"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,14 +15,14 @@ import {
   LogoutLink,
   PortalLink,
 } from "@kinde-oss/kinde-auth-nextjs/components";
+import {useSuspenseQuery} from "@tanstack/react-query";
+import {orpc} from "@/lib/orpc";
+import {getAvatar} from "@/lib/getAvatar";
 
-const user = {
-  picture: "https://avatars.githubusercontent.com/u/124599?v=4",
-  name: "AI",
-  email: "Email@example.com",
-};
 
 export default function UserNav() {
+  const {data : {user}} = useSuspenseQuery(orpc.workspace.list.queryOptions());
+  console.log(user.picture)
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -34,10 +35,10 @@ export default function UserNav() {
         >
           <Avatar>
             <AvatarImage
-              src={user.picture}
+              src={getAvatar(user.picture, user.email!)}
               className={"object-cover"}
             ></AvatarImage>
-            <AvatarFallback>{user.name}</AvatarFallback>
+            <AvatarFallback>{user.given_name?.slice(0,2).toUpperCase()}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
@@ -54,14 +55,14 @@ export default function UserNav() {
         >
           <Avatar>
             <AvatarImage
-              src={user.picture}
+                src={getAvatar(user.picture, user.email!)}
               className={"object-cover"}
             ></AvatarImage>
-            <AvatarFallback>{user.name}</AvatarFallback>
+            <AvatarFallback>{user.given_name?.slice(0,2).toUpperCase()}</AvatarFallback>
           </Avatar>
           <div className={"grid flex-1 text-left text-sm leading-tight px-2"}>
-            <p className={"truncate font-medium"}>{user.name}</p>
-            <p className={"text-muted-foreground"}>{user.email}</p>
+            <p className={"truncate font-medium"}>{user.given_name}</p>
+            <p className={"text-muted-foreground truncate"}>{user.email}</p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
