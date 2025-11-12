@@ -2,8 +2,16 @@ import DashboardList from "@/components/Dashboard/DashboardList";
 import CreateWorkSpace from "@/components/Dashboard/CreateWorkSpace";
 import UserNav from "@/components/Dashboard/UserNav";
 import { ReactNode } from "react";
+import { orpc } from "@/lib/orpc";
+import { getQueryClient, HydrateClient } from "@/lib/query/hydration";
 
-export default function DashboardLayout({ children }: { children: ReactNode }) {
+export default async function DashboardLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const queryClient = getQueryClient();
+  await queryClient.prefetchQuery(orpc.workspace.list.queryOptions());
   return (
     <div className={"flex w-full h-screen"}>
       <div
@@ -12,13 +20,17 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         }
       >
         <div>
-          <DashboardList />
+          <HydrateClient client={queryClient}>
+            <DashboardList />
+          </HydrateClient>
           <div className={"mt-4"}>
             <CreateWorkSpace />
           </div>
         </div>
         <div className={"mt-auto"}>
-          <UserNav />
+          <HydrateClient client={queryClient}>
+            <UserNav />
+          </HydrateClient>
         </div>
       </div>
       {children}
