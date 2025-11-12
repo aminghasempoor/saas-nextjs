@@ -23,7 +23,6 @@ export default function UserNav() {
   const {
     data: { user },
   } = useSuspenseQuery(orpc.workspace.list.queryOptions());
-  console.log(user.picture);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

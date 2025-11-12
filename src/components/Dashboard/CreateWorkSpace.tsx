@@ -31,6 +31,7 @@ import { workspaceSchema } from "@/schemas/workspaceSchema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { orpc } from "@/lib/orpc";
 import { toast } from "sonner";
+import { isDefinedError } from "@orpc/client";
 
 export default function CreateWorkSpace() {
   const [open, setOpen] = useState(false);
@@ -54,7 +55,15 @@ export default function CreateWorkSpace() {
         form.reset();
         setOpen(false);
       },
-      onError: () => {
+      onError: (error) => {
+        if (isDefinedError(error)) {
+          if (error.code === "RATE_LIMITED") {
+            toast.error(error.message);
+            return;
+          }
+          toast.error(error.message);
+          return;
+        }
         toast.error("Error creating workspace");
       },
     }),
