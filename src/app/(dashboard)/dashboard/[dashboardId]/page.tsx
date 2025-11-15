@@ -1,3 +1,1 @@
-export default function DashboardID() {
-
-}
+export default function DashboardID() {}
